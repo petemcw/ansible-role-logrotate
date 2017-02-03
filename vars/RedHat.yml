@@ -1,0 +1,8 @@
+---
+# Defines variables for RedHat/CentOS
+
+logrotate_config_path: "/etc/logrotate.d"
+logrotate_config_file: "/etc/logrotate.conf"
+logrotate_packages:
+  - "cronie"
+  - "logrotate"

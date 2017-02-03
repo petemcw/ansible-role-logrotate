@@ -1,0 +1,47 @@
+{% macro build_config(entry) %}
+{% if entry.comment | default() %}
+# {{ entry.comment }}
+{% endif %}
+{% if entry.path | default() %}
+{%   if entry.path is string %}
+{{ entry.path }} {
+{%   else %}
+{%     for file in entry.path %}
+{{ file }}
+{%     endfor %}
+{
+{%   endif %}
+{% if entry.options | default() %}
+{%   for option in entry.options %}
+{{ option | indent(4, true) }}
+{%   endfor %}
+{% endif %}
+{% if entry.firstaction | default() %}
+    firstaction
+{{ entry.firstaction | indent(8, true) }}
+    endscript
+{% endif %}
+{% if entry.prerotate | default() %}
+    prerotate
+{{ entry.prerotate | indent(8, true) }}
+    endscript
+{% endif %}
+{% if entry.postrotate | default() %}
+    postrotate
+{{ entry.postrotate | indent(8, true) }}
+    endscript
+{% endif %}
+{% if entry.preremove | default() %}
+    preremove
+{{ entry.preremove | indent(8, true) }}
+    endscript
+{% endif %}
+{% if entry.lastaction | default() %}
+    lastaction
+{{ entry.lastaction | indent(8, true) }}
+    endscript
+{% endif %}
+}
+{% endif %}
+
+{% endmacro %}

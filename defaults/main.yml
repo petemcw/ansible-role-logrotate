@@ -1,0 +1,30 @@
+---
+# The variables file used for logrotate playbooks.
+# If not overriden in inventory or as a parameter, this is the value that will be used
+
+logrotate_default_options:
+  - "weekly"
+  - "rotate 4"
+  - "create"
+  - "dateext"
+  - "compress"
+logrotate_scripts:
+  - name: "tmp"
+    entries:
+      - name: "wtmp"
+        comment: "No package owns wtmp, logrotate will manage"
+        path: "/var/log/wtmp"
+        options:
+          - "monthly"
+          - "missingok"
+          - "create 0664 root utmp"
+          - "minsize 1M"
+          - "rotate 1"
+      - name: "btmp"
+        comment: "No package owns btmp, logrotate will manage"
+        path: "/var/log/btmp"
+        options:
+          - "monthly"
+          - "missingok"
+          - "create 0600 root utmp"
+          - "rotate 1"

@@ -1,0 +1,41 @@
+---
+# Defines tasks to install and configure Logrotate
+
+- name: Gather OS specific varibles
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+  tags:
+    - logrotate
+
+- include: "{{ ansible_os_family }}/install.yml"
+  static: no
+  tags:
+    - logrotate
+
+- name: Ensure configuration directory exists
+  file: >
+    path="{{ logrotate_config_path }}"
+    mode=0755 owner=root group=root
+    state=directory
+  tags:
+    - logrotate
+
+- name: Write configuration template
+  template: >
+    src=logrotate.conf.j2
+    dest="{{ logrotate_config_file }}"
+    mode=0644 owner=root group=root
+  tags:
+    - logrotate
+
+- name: Write service configuration templates
+  template: >
+    src=log-template.j2
+    dest="{{ logrotate_config_path }}/{{ item.name }}"
+    mode=0644 owner=root group=root
+  with_items: "{{ logrotate_scripts }}"
+  tags:
+    - logrotate

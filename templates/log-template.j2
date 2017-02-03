@@ -1,0 +1,11 @@
+# This file is under control by Ansible for {{inventory_hostname}}
+# DO NOT MODIFY by hand; update the role called: {{ role_path | basename }}
+{% import '_macros.j2' as log with context %}
+
+{% if item.entries | default() %}
+{%   for entry in item.entries %}
+{{ log.build_config(entry) -}}
+{%   endfor %}
+{% else %}
+{{ log.build_config(item) -}}
+{% endif %}

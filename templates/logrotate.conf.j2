@@ -1,0 +1,10 @@
+# This file is under control by Ansible for {{inventory_hostname}}
+# DO NOT MODIFY by hand; update the role called: {{ role_path | basename }}
+
+# default options
+{% for option in logrotate_default_options %}
+{{ option }}
+{% endfor %}
+
+# import config from installed packages
+include /etc/logrotate.d
