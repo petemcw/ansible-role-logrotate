@@ -1,0 +1,15 @@
+---
+- name: Configure logrotate for all nodes
+  hosts: all
+  connection: local
+  roles:
+    - test_role
+  vars:
+    logrotate_scripts:
+      - name: "test"
+        comment: "Test rotation script"
+        path: "/var/log/test"
+        options:
+          - "daily"
+          - "missingok"
+          - "rotate 1"
